@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>🎉 !!! HAPPY BIRTHDAY SAKSHAM !!! 🎉</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #4ecdc4;
+            --accent-color: #feca57;
+            --text-color: #2d3436;
+            --bg-gradient: linear-gradient(45deg, var(--primary-color), var(--secondary-color), #ff9ff3, #feca57);
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            min-height: 100vh;
+            font-family: 'Bubblegum Sans', cursive;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: var(--text-color);
+            animation: gradientBG 15s ease infinite;
+            position: relative; /* Needed for pseudo-element background particles */
+            padding: 2rem 0; /* Add padding for longer content */
+        }
+
+        /* Subtle floating particles background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100%; height: 100%;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: particleFloat 25s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            padding: 1rem;
+            text-align: center;
+            max-width: 90%;
+            width: 700px; /* Max width */
+        }
+
+        .title {
+            font-family: 'Pacifico', cursive;
+            font-size: clamp(2.5em, 8vw, 5em); /* Responsive font size */
+            color: #fff;
+            text-shadow: 4px 4px 0 rgba(0,0,0,0.2);
+            animation: titlePulse 2s ease-in-out infinite;
+            margin: 1rem 0 0 0; /* Reduced top margin */
+            cursor: default; /* Indicate it's not clickable */
+        }
+
+        .saksham-name {
+            display: inline-block; /* Needed for transform */
+            color: var(--accent-color);
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
+        }
+        .saksham-name:hover {
+            transform: scale(1.1) rotate(-3deg);
+            text-shadow: 6px 6px 5px rgba(0,0,0,0.3);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 25px;
+            padding: clamp(1rem, 5vw, 2.5rem); /* Responsive padding */
+            margin: 2rem auto;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            animation: cardFloat 4s ease-in-out infinite;
+            transform-style: preserve-3d; /* For potential 3D effects */
+            transition: transform 0.5s ease;
+            position: relative; /* For absolute positioned elements inside */
+        }
+        .card:hover {
+             transform: rotateY(5deg) rotateX(2deg) scale(1.02); /* Subtle 3D tilt on hover */
+        }
+
+        .stage {
+            display: none; /* Hide stages initially */
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            margin-bottom: 1.5rem;
+        }
+        .stage.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .message {
+            font-size: clamp(1.2em, 4vw, 1.6em); /* Responsive font size */
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+        .highlight {
+            background-color: rgba(254, 202, 87, 0.5); /* yellow highlight */
+            padding: 0.1em 0.3em;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .emoji-bar {
+            font-size: clamp(2em, 6vw, 3em);
+            margin: 1.5rem 0;
+            animation: emojiDance 5s linear infinite alternate;
+            cursor: pointer; /* Hint that it's interactive */
+            display: inline-block; /* Allow transform */
+            transition: transform 0.3s ease;
+        }
+        .emoji-bar:hover {
+            transform: scale(1.2);
+        }
+
+        /* --- Placeholders for Personalization --- */
+        .personal-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed var(--secondary-color);
+        }
+        .personal-section h3 {
+            font-size: 1.4em;
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+        }
+        .personal-section ul {
+            list-style: none;
+            padding: 0;
+            font-size: 1.1em;
+        }
+        .personal-section li {
+            background: rgba(78, 205, 196, 0.1);
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        /* --- End Placeholders --- */
+
+        button {
+            background: linear-gradient(45deg, var(--primary-color), #ff4757);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            font-size: clamp(1em, 4vw, 1.3em);
+            font-family: 'Bubblegum Sans', cursive;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 0.5rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            position: relative; /* For pseudo-elements */
+            overflow: hidden; /* Hide overflow from pseudo-elements */
+        }
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+            z-index: 0;
+        }
+        button:hover::before {
+            width: 250%;
+            height: 250%;
+        }
+         button span { /* To keep text above the ::before ripple */
+            position: relative;
+            z-index: 1;
+        }
+        button:hover {
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        button:active {
+            transform: scale(1.05) rotate(1deg);
+        }
+        button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .final-message {
+            font-family: 'Pacifico', cursive;
+            font-size: 2em;
+            color: var(--primary-color);
+            margin-top: 2rem;
+            animation: fadeInScale 1.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* Secret Element */
+        .secret {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-size: 0.7em;
+            color: rgba(0,0,0,0.2);
+            cursor: help;
+            transition: color 0.3s;
+        }
+        .secret:hover {
+             color: rgba(0,0,0,0.6);
+        }
+
+        /* Animations */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+        }
+        @keyframes emojiDance {
+            0% { transform: rotate(-5deg) scale(1); }
+            100% { transform: rotate(5deg) scale(1.1); }
+        }
+         @keyframes particleFloat {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); } /* Adjust distance for speed */
+        }
+         @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Background Audio - Needs user interaction to start -->
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg"> <!-- Replace with a cheerful, royalty-free track -->
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="container">
+        <h1 class="title">Happy Birthday <span class="saksham-name">Saksham</span>!</h1>
+
+        <div class="card">
+            <div class="emoji-bar" onclick="playRandomSound()">🎈🎁🎉🎂🎊🥳</div>
+
+            <!-- Stage 1: Initial Message -->
+            <div id="stage1" class="stage active">
+                <p class="message">
+                    Hey Saksham! Ready to kick off your ordinary day? <br>
+                    Hope you have an <span class="highlight">absolutely normal</span>  😏🙂 birthday!
+                </p>
+                <button id="btnStage1" onclick="advanceStage(1)"><span>Let's Start the Fun! ✨</span></button>
+            </div>
+
+            <!-- Stage 2: More Wishes & Effects -->
+            <div id="stage2" class="stage">
+                <p class="message">
+                    Alright! Wishing you a year filled with <span class="highlight">sadness, failures 😭😑😔,</span> and all the things that make you laughter. <br> May you got too many girlfriends 😊🥹🫂😭🙂always  flirt with them ☕️
+                </p>
+                 <button id="btnStage2" onclick="advanceStage(2)"><span>daba isko 😏 💖</span></button>
+                 <button onclick="confettiStars()"><span>isko bhi daba! ⭐</span></button>
+            </div>
+
+            <!-- Stage 3: Personalized Section -->
+            <div id="stage3" class="stage">
+                <p class="message">
+                    Remember all the shit times 💩😏😎 times? Let's recall a few...
+                </p>
+                 <!-- === ADD YOUR PERSONAL TOUCHES HERE === -->
+                <div class="personal-section">
+                    <h3>Things That Make Saksham Awesome:</h3>
+                    <ul>
+                        <li>That time  you met that didi 😎</li>
+                        <li>Your legendary glutes 😏🙂.</li>
+                        <li>Always ready with anoop.</li>
+                        
+                        <li>Keep being YOU!</li>
+                    </ul>
+                </div>
+                 <!-- === END PERSONAL TOUCHES === -->
+                 <button id="btnStage3" onclick="advanceStage(3)"><span>dabba de isko bhi 😐🎁</span></button>
+                 <button onclick="confettiSideCannons()"><span>isko dabaa phull niklega shayd 🎊</span></button>
+            </div>
+
+             <!-- Stage 4: Final Big Wish -->
+            <div id="stage4" class="stage">
+                 <p class="message">
+                    Okay, that's it ...<br>
+                    asking <span class="highlight">would you come park</span>today 😊😏🤨🧐! <br>
+                    May this year be your best one yet! 🚀
+                </p>
+                 <p class="final-message" id="finalMessage">Keep Shining, Saksham!</p>
+                 <button onclick="confettiGrandFinale(); this.disabled=true;"><span>ISKO DABA pata nhi kya hoga! 🥳</span></button>
+                 <button onclick="toggleMusic()"><span>music band kar bekar hai 🎶</span></button>
+            </div>
+
+            <div class="secret" title="Psst! Click the emojis!">🤫</div>
+        </div>
+    </div>
+
+    <script>
+        const stages = document.querySelectorAll('.stage');
+        const finalMessage = document.getElementById('finalMessage');
+        const bgMusic = document.getElementById('bgMusic');
+        let currentStage = 0;
+        let musicPlaying = false;
+
+        // --- Sound Effects ---
+        const sounds = [
+            new Audio('https://assets.mixkit.co/sfx/preview/mixkit-video-game-treasure-2066.mp3'), // Treasure
+            new Audio('https://assets.mixkit.co/sfx/preview/mixkit-small-crowd-ovation-437.mp3'),   // Applause
+            new Audio('https://assets.mixkit.co/sfx/preview/mixkit-magic-sweep-game-trophy-257.mp3'), // Magic Sweep
+            new Audio('https://assets.mixkit.co/sfx/preview/mixkit-bonus-earned-in-video-game-2058.mp3') // Bonus
+        ];
+        sounds.forEach(s => s.volume = 0.6); // Adjust volume
+
+        function playSound(audio) {
+            audio.currentTime = 0; // Rewind
+            audio.play().catch(e => console.error("Audio play failed:", e)); // Play safely
+        }
+
+        function playRandomSound() {
+            const randomIndex = Math.floor(Math.random() * sounds.length);
+            playSound(sounds[randomIndex]);
+             // Add a little visual feedback on emoji click
+             confetti({
+                particleCount: 30,
+                spread: 50,
+                origin: { y: 0.7 },
+                gravity: 0.5,
+                scalar: 0.6,
+                colors: ['#feca57', '#ff9ff3', '#ffffff']
+             });
+        }
+
+        // --- Confetti Functions ---
+        function basicBurst() {
+            confetti({
+                particleCount: 120,
+                spread: 80,
+                origin: { y: 0.6 },
+                gravity: 0.8,
+                colors: ['#ff6b6b', '#4ecdc4', '#feca57', '#ffffff', '#ff9ff3']
+            });
+        }
+
+        function confettiStars() {
+            const defaults = {
+                spread: 360,
+                ticks: 50,
+                gravity: 0.1,
+                decay: 0.94,
+                startVelocity: 25,
+                shapes: ['star'],
+                colors: ['FFE400', 'FFBD00', 'E89400', 'FFCA6C', 'FDFFB8']
+            };
+
+            function shoot() {
+                confetti({
+                    ...defaults,
+                    particleCount: 50,
+                    scalar: 1.2,
+                    shapes: ['star']
+                });
+                confetti({
+                    ...defaults,
+                    particleCount: 20,
+                    scalar: 0.75,
+                    shapes: ['circle']
+                });
+            }
+            playSound(sounds[2]); // Magic sweep sound
+            setTimeout(shoot, 0);
+            setTimeout(shoot, 100);
+            setTimeout(shoot, 200);
+        }
+
+        function confettiSideCannons() {
+             const defaults = {
+                spread: 55,
+                particleCount: 70,
+                origin: { y: 0.6 },
+                gravity: 0.7,
+                ticks: 200,
+                scalar: 0.9,
+                 colors: ['#ff6b6b', '#4ecdc4', '#feca57', '#ffffff', '#ff9ff3']
+            };
+            confetti({
+                ...defaults,
+                angle: 60,
+                origin: { x: 0 }
+            });
+            confetti({
+                ...defaults,
+                angle: 120,
+                origin: { x: 1 }
+            });
+            playSound(sounds[3]); // Bonus sound
+        }
+
+        function confettiGrandFinale() {
+            playSound(sounds[1]); // Applause
+            const duration = 5 * 1000; // 5 seconds
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 100 * (timeLeft / duration);
+                // Left side confetti
+                confetti({ ...defaults, particleCount, origin: { x: Math.random() * 0.3, y: Math.random() - 0.2 } });
+                 // Right side confetti
+                confetti({ ...defaults, particleCount, origin: { x: 1 - Math.random() * 0.3, y: Math.random() - 0.2 } });
+            }, 250);
+
+             // Add some extra bursts
+             setTimeout(basicBurst, 500);
+             setTimeout(confettiStars, 1500);
+             setTimeout(confettiSideCannons, 2500);
+        }
+
+
+        // --- Stage Management ---
+        function advanceStage(stageNum) {
+            // Disable current button
+            const currentButton = document.getElementById(`btnStage${stageNum}`);
+            if (currentButton) currentButton.disabled = true;
+
+            // Trigger effects for this stage
+            if (stageNum === 1) {
+                basicBurst();
+                playSound(sounds[0]); // Treasure sound
+                // Try starting background music here (might require prior interaction)
+                toggleMusic(true); // Attempt to play
+            } else if (stageNum === 2) {
+                confettiStars();
+                setTimeout(basicBurst, 300);
+            } else if (stageNum === 3) {
+                confettiSideCannons();
+                setTimeout(basicBurst, 400);
+                finalMessage.style.opacity = 1; // Make sure final message is ready but maybe hidden by stage CSS
+            }
+
+            // Hide current stage
+            stages[currentStage].classList.remove('active');
+
+            // Show next stage
+            currentStage++;
+            if (currentStage < stages.length) {
+                stages[currentStage].classList.add('active');
+                 // Scroll into view if needed
+                 stages[currentStage].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else {
+                // Handle end of stages if needed (already done by last button?)
+                console.log("Celebration Complete!");
+            }
+        }
+
+        // --- Music Control ---
+        function toggleMusic(forcePlay = false) {
+             if (forcePlay && !musicPlaying) {
+                bgMusic.play().then(() => {
+                    musicPlaying = true;
+                    console.log("Music started");
+                }).catch(e => {
+                    console.log("Music autoplay failed, user interaction needed.");
+                    // Optionally, display a message asking the user to click again or click a dedicated music button.
+                });
+            } else if (!forcePlay) {
+                if (musicPlaying) {
+                    bgMusic.pause();
+                    musicPlaying = false;
+                    console.log("Music paused");
+                } else {
+                    bgMusic.play().then(() => {
+                        musicPlaying = true;
+                        console.log("Music resumed");
+                    }).catch(e => console.log("Music play failed"));
+                }
+            }
+        }
+
+        // Initial setup
+        window.onload = () => {
+            stages[0].classList.add('active'); // Show first stage
+            // Add a small, initial confetti sprinkle
+            setTimeout(() => confetti({
+                 particleCount: 50,
+                 spread: 60,
+                 origin: { y: 0.8 },
+                 scalar: 0.7,
+                 gravity: 0.6,
+                 ticks: 150,
+                 colors: ['#ffffff', '#feca57']
+             }), 500);
+
+            // Prompt for music potentially? Best practice is a dedicated button.
+             console.log("Page loaded. Click a button to potentially start music.");
+        };
+
+    </script>
+chalega Aaj 😏😎
+</body>
+</html>
